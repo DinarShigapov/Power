@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Power
 {
@@ -24,7 +19,11 @@ namespace Power
         public MainWindow()
         {
             InitializeComponent();
+            TBAccuracy.Text = defaultAccuracy.ToString();
         }
+
+        private const int defaultAccuracy = 2;
+
 
         private void FindI_Click(object sender, RoutedEventArgs e)
         {
@@ -32,11 +31,11 @@ namespace Power
 
             if (string.IsNullOrWhiteSpace(TBR.Text) == true || TBR.Text.EndsWith(",") == true)
             {
-                error += "Введите значение R\n";
+                error += "Введите корректное значение R\n";
             }
-            if (string.IsNullOrWhiteSpace(TBU.Text) == true)
+            if (string.IsNullOrWhiteSpace(TBU.Text) == true || TBU.Text.EndsWith(",") == true)
             {
-                error += "Введите значение U\n";
+                error += "Введите корректное значение U\n";
             }
             if (string.IsNullOrWhiteSpace(error) == false)
             {
@@ -46,52 +45,42 @@ namespace Power
 
             double U = Convert.ToDouble(TBU.Text);
             double R = Convert.ToDouble(TBR.Text);
-            double I = Math.Round(U / R, 3);
+            double I = Math.Round(U / R, TBAccuracy.Text != "" ? int.Parse(TBAccuracy.Text) : defaultAccuracy);
             
             if (R == 0)
             {
                 MessageBox.Show("Делить на 0 нельзя");
                 return;
             }
-
+            if (TBAccuracy.Text == "")
+            {
+                MessageBox.Show("Точность была указана по умолчанию");
+                TBAccuracy.Text = defaultAccuracy.ToString();
+            }
 
             TBAnswer.Text = I.ToString();
+
+
         }
 
-        private void TBU_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void TB_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (Regex.IsMatch(e.Text, @"[0-9,]") == false)
-            {
-                e.Handled = true;
-            }
+            var textBox = sender as TextBox;
 
-            if (TBU.Text.Length == 0 && e.Text == ",")
-            {
+            if (Regex.IsMatch(e.Text, @"[0-9,,]") == false)
                 e.Handled = true;
-            }
 
-            if (TBU.Text.Contains(",") == true)
-            {
+            if (textBox.Text.Length == 0 && e.Text == ",")
                 e.Handled = true;
-            }
+
+            if (e.Text == "," && textBox.Text.Contains(','))
+                e.Handled = true;
         }
 
-        private void TBR_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void TBAccuracy_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (Regex.IsMatch(e.Text, @"[0-9,]") == false)
-            {
+            if (Regex.IsMatch(e.Text, @"[0-9]") == false)
                 e.Handled = true;
-            }
-
-            if (TBU.Text.Length == 0 && e.Text == ",")
-            {
-                e.Handled = true;
-            }
-
-            if (TBR.Text.Contains(",") == true)
-            {
-                e.Handled = true;
-            }
         }
     }
 }

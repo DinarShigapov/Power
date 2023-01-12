@@ -5,11 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Power"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Amperage" 
+        Height="400" Width="400"
+        WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <Style TargetType="TextBox">
-            <Setter Property="Margin" Value="0 0 0 10"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Opacity" Value="0.8"/>
+        </Style>
+        <Style TargetType="StackPanel">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
         </Style>
     </Window.Resources>
     
@@ -17,16 +32,37 @@
         <StackPanel Orientation="Vertical"
                     Width="200"
                     VerticalAlignment="Center">
-            <TextBlock Text="Напряжение U"
-                       FontSize="15"/>
-            <TextBox x:Name="TBU" PreviewTextInput="TBU_PreviewTextInput"/>
-            <TextBlock Text="Сопротивление R"
-                        FontSize="15"/>
-            <TextBox x:Name="TBR" PreviewTextInput="TBR_PreviewTextInput"/>
-            <TextBlock Text="Ответ I"
-                        FontSize="15"/>
-            <TextBox x:Name="TBAnswer" IsEnabled="False"/>
-            <Button x:Name="FindI" Content="Решить"
+            <TextBlock Text="I = U / R"
+                       FontSize="20"
+                       HorizontalAlignment="Center"
+                       Opacity="0.5"
+                       Margin="0 0 0 10"/>
+            <TextBlock Text="Напряжение (U)"/>
+            <StackPanel Margin="0 0 0 10">
+                <TextBox x:Name="TBU" 
+                         PreviewTextInput="TB_PreviewTextInput"
+                         MaxLength="8"/>
+                <TextBlock Text=" Вольт" FontSize="13"/>
+            </StackPanel>
+            <TextBlock Text="Сопротивление (R)"/>
+            <StackPanel Margin="0 0 0 10">
+                <TextBox x:Name="TBR" 
+                         PreviewTextInput="TB_PreviewTextInput"
+                         MaxLength="8"/>
+                <TextBlock Text=" ОМ" FontSize="13"/>
+            </StackPanel>
+            <TextBlock Text="Сила тока (I)"/>
+            <StackPanel Margin="0 0 0 10">
+                <TextBox x:Name="TBAnswer" IsEnabled="False"/>
+                <TextBlock Text=" Ампер" FontSize="13"/>
+            </StackPanel>
+            <StackPanel Margin="0 0 0 10">
+                <TextBlock Text="Точность " FontSize="13"/>
+                <TextBox x:Name="TBAccuracy" 
+                         Width="54" Height="16"
+                         PreviewTextInput="TBAccuracy_PreviewTextInput"/>
+            </StackPanel>
+            <Button x:Name="FindI" Content="ВЫЧИСЛИТЬ"
                     Click="FindI_Click"/>
         </StackPanel>
     </Grid>
