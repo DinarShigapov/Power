@@ -42,6 +42,11 @@ namespace Power
                 MessageBox.Show(error);
                 return;
             }
+            if (int.Parse(TBAccuracy.Text) > 15)
+            {
+                MessageBox.Show("Точность (0 - 15)");
+                return;
+            }
 
             double U = Convert.ToDouble(TBU.Text);
             double R = Convert.ToDouble(TBR.Text);
