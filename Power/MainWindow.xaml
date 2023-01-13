@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="Amperage" 
         Height="400" Width="400"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
 
     <Window.Resources>
         <Style TargetType="TextBox">
